@@ -1,40 +1,27 @@
+using System.Reflection;
 using AspNetCoreRateLimit;
 using FluentValidation;
+using Microsoft.AspNetCore.OData;
+using Microsoft.OData.Edm;
+using Microsoft.OData.ModelBuilder;
 using Microsoft.OpenApi.Models;
 using Plooto.Assessment.Payment.API;
-using Plooto.Assessment.Payment.Infrastructure;
+using Plooto.Assessment.Payment.Application;
+using Plooto.Assessment.Payment.Domain.Common;
+using Plooto.Assessment.Payment.Infrastructure.Repositories;
 using Serilog;
-using Serilog.Formatting.Elasticsearch;
+using Serilog.Exceptions;
 using Serilog.Sinks.Elasticsearch;
 
 
 
-//create the logger and setup your sinks, filters and properties
-Log.Logger = new LoggerConfiguration()
-    .WriteTo.Console()
-    .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri("http://localhost:9200/"))
-        {
-        
-        //TypeName needs to be null
-        TypeName = null,
-        //IndexFormat needs to be the name of your datastream set in the index template
-        IndexFormat = $"PaymentAPI-{DateTime.UtcNow:yyyy-MM}",
-        BatchAction = ElasticOpType.Create,
-        CustomFormatter = new ElasticsearchJsonFormatter(),       
-        NumberOfReplicas = 1,
-        NumberOfShards = 2,      
-        })
-        .Enrich.WithProperty("Environment", Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")??"Development")
-        .Enrich.FromLogContext()
-    .CreateLogger();
-
-
 // Add services to the container.
 var builder = WebApplication.CreateBuilder(args);
-builder.Logging.ClearProviders();
-builder.Logging.AddSerilog(Log.Logger);
+ConfigureLogging();
+builder.Host.UseSerilog();
 
-builder.Services.AddControllers();
+builder.Services.AddControllers()
+                .AddOData(opt => opt.Filter().Select().Expand());
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(c => { 
@@ -76,7 +63,9 @@ builder.Services.Configure<IpRateLimitOptions>(options =>
 
 builder.Services.AddHealthChecks(builder.Configuration);
 builder.Services.AddDbContexts(builder.Configuration);
-// builder.Host.UseSerilog();
+builder.Services.AddApplicationLogging(builder.Configuration);
+builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+ 
 var services = builder.Services;
 services.AddMediatR(cfg =>
 {
@@ -89,8 +78,9 @@ services.AddMediatR(cfg =>
 // Register the command validators for the validator behavior (validators based on FluentValidation library)
 services.AddSingleton<IValidator<CreatePaymentCommand>, CreatePaymentCommandValidator>();
 
-// Registration of the services
-// services.AddScoped<IRepository, Repository>();
+// Registration of the services 
+ services.AddTransient(typeof(IRepository<>), typeof(Repository<>));
+ services.AddScoped<IPaymentService, PaymentService>();
 
 
 
@@ -107,11 +97,41 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthorization();
 app.UseCors();
 app.UseIpRateLimiting();
-
 app.MapControllers();
 
 app.Run();
+
+void ConfigureLogging()
+{
+    var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+    var configuration = new ConfigurationBuilder()
+        .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
+        .AddJsonFile(
+            $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json",
+            optional: true)
+        .Build();
+
+    Log.Logger = new LoggerConfiguration()
+        .Enrich.FromLogContext()
+        .Enrich.WithExceptionDetails()
+        .WriteTo.Debug()
+        .WriteTo.Console()
+        .WriteTo.Elasticsearch(ConfigureElasticSink(configuration, environment))
+        .Enrich.WithProperty("Environment", environment)
+        .ReadFrom.Configuration(configuration)
+        .CreateLogger();
+}
+
+ElasticsearchSinkOptions ConfigureElasticSink(IConfigurationRoot configuration, string environment)
+{
+    var defaultIndex = $"{Assembly.GetExecutingAssembly().GetName().Name }";
+    return new ElasticsearchSinkOptions(new Uri(configuration["ElasticConfiguration:Uri"] ?? "http://localhost:9200"))
+    {
+        AutoRegisterTemplate = true,
+        
+        IndexFormat = $"{defaultIndex.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
+    };
+}

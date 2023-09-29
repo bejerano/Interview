@@ -1,6 +1,10 @@
 using Plooto.Assessment.Payment.Infrastructure;
 ﻿using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using Serilog;
+using Serilog.Events;
+using Serilog.Sinks.Elasticsearch;
+using System.Reflection;
 
 namespace Plooto.Assessment.Payment.API;
 
@@ -41,7 +45,31 @@ internal static class Extensions
         return services;
     }
 
-    
+    public static IServiceCollection AddApplicationLogging(this IServiceCollection services, IConfiguration configuration)
+    {
+        var uri = configuration["ElasticSearch:Uri"] ?? "http://localhost:9200";
+         Log.Information($"Url: {uri}");
+         
+         Log.Logger = new LoggerConfiguration()
+            .MinimumLevel.Override("Microsoft", LogEventLevel.Information)
+            .Enrich.FromLogContext()
+            .Enrich.WithEnvironmentName()
+            .Enrich.WithMachineName()
+            .WriteTo.Console()
+            .WriteTo.Debug()
+            .WriteTo.Elasticsearch(new ElasticsearchSinkOptions(new Uri(uri))
+            {
+                AutoRegisterTemplate = true,
+                AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv6,
+                IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name!.ToLower().Replace(".", "-")}-{"Development".ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
+            })
+            .ReadFrom.Configuration(configuration)
+            .CreateLogger();
+
+         return services;
+    }
+
+   
     // public static IServiceCollection AddApplicationOptions(this IServiceCollection services, IConfiguration configuration)
     // {
     //     services.Configure<PaymentSettings>(configuration);

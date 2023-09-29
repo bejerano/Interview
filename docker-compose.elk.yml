@@ -7,11 +7,13 @@ services:
       context: elk/elasticsearch/
     volumes:
       - ./elk/elasticsearch/config/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml:ro
+    
     ports:
       - "9200:9200"
       - "9300:9300"
-    environment:
-      ES_JAVA_OPTS: "-Xmx256m -Xms256m"
+    environment:     
+      ES_JAVA_OPTS: "-Xmx512m -Xms512m"
+      discovery.type: "single-node"
 
   logstash:
     build:
@@ -35,3 +37,7 @@ services:
       - "5601:5601"
     depends_on:
       - elasticsearch
+networks:
+  network1:
+    name: interviews_devcontainer_default
+    external: true     

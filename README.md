@@ -36,6 +36,7 @@ Kiabana: http://localhost:5601
 dotnet dev-certs https -t
 
 #Migrations
+dotnet tool update --global dotnet-ef
 dotnet ef migrations add Initial --context Plooto.Assessment.Payment.Infrastructure.PaymentContext -o ./Infrastructure/Migrations
 dotnet ef database update
 

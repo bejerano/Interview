@@ -7,5 +7,8 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>Plooto.Assessment.Payment.Application</RootNamespace>
+    <Version>1.0.0-beta</Version>
+    <Authors>Jose Bejerano</Authors>
+    <Company>Plooto, Inc</Company>
   </PropertyGroup>
 </Project>

@@ -1,0 +1,1 @@
+global using Plooto.Assessment.Payment.Domain;

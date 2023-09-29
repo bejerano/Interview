@@ -4,11 +4,11 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
     <RootNamespace>Plooto.Assessment.Payment.Infrastructure</RootNamespace>
+    <Version>1.0.0-beta</Version>
+    <Authors>Jose Bejerano</Authors>
+    <Company>Plooto, Inc</Company>
   </PropertyGroup>
   <ItemGroup>
-    <PackageReference Include="MediatR">
-      <Version>12.1.1</Version>
-    </PackageReference>
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer">
       <Version>6.0.11</Version>
     </PackageReference>

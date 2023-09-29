@@ -1,8 +1,4 @@
 
-using Microsoft.EntityFrameworkCore;
-using Plooto.Assessment.Payment.Domain;
-using Plooto.Assessment.Payment.Infrastructure.Repositories;
-
 namespace Plooto.Assessment.Payment.Infrastructure;
 
 public class PaymentContext : DbContext, IUnitOfWork
@@ -30,7 +26,17 @@ public class PaymentContext : DbContext, IUnitOfWork
         // modelBuilder.ApplyConfiguration(new OrderEntityTypeConfiguration());        
     }
 
-    public async Task CommitTransactionAsync(IDbContextTransaction transaction)
+    public async Task<IDbContextTransaction?> BeginTransactionAsync()
+    {
+        if (_currentTransaction != null) 
+        return null;
+
+        _currentTransaction = await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
+
+        return _currentTransaction;
+    }
+
+    private async Task CommitTransactionAsync(IDbContextTransaction transaction)
     {
         if (transaction == null) throw new ArgumentNullException(nameof(transaction));
         if (transaction != _currentTransaction) throw new InvalidOperationException($"Transaction {transaction.TransactionId} is not current");
@@ -74,5 +80,10 @@ public class PaymentContext : DbContext, IUnitOfWork
     public Task<bool> SaveEntitiesAsync(CancellationToken cancellationToken = default)
     {
         throw new NotImplementedException();
+    }
+
+    public async Task CommitTransactionAsync()
+    {
+      await this.CommitTransactionAsync(_currentTransaction);
     }
 }

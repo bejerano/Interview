@@ -1,5 +1,6 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.OData.Query;
 
 namespace Plooto.Assessment.Payment.API.Controllers;
 
@@ -27,11 +28,15 @@ public class BillingController : ControllerBase
 
 
     [HttpGet]
+    [EnableQuery]
     [ProducesResponseType(typeof(IEnumerable<object>), StatusCodes.Status200OK)]
-    public async Task<ActionResult<IEnumerable<object>>> GetBillingsAsync()
+    public async Task<ActionResult<IEnumerable<BillVM>>> GetBillingsAsync()
     {      
-        //var billings = await _orderQueries.GetOrdersFromUserAsync();
-        return Ok();
+         var query =  new  GetAllBillsQuery();
+         var result = await _mediator.Send(query);
+        
+        
+        return Ok(result);
     }
 
     [HttpGet()]
@@ -40,7 +45,7 @@ public class BillingController : ControllerBase
     [ProducesResponseType(StatusCodes.Status404NotFound)]
     public async Task<ActionResult<object>> GetBillingAsync(Guid id)
     {
-        //var order = await _orderQueries.GetOrderAsync(id);
+       
         //if (order == null)
         //{
         //    return NotFound();
