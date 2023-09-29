@@ -26,6 +26,22 @@ Outbox Pattern implementation using [Quartz.NET](https://github.com/quartznet/qu
 
 ## Related blog articles
 
+# Start Logging Server
+docker-compose -f docker-compose.elk.yml up
+
+## Open browser
+Kiabana: http://localhost:5601
+
+#Certificates
+dotnet dev-certs https -t
+
+#Migrations
+dotnet ef migrations add Initial --context Plooto.Assessment.Payment.Infrastructure.PaymentContext -o ./Infrastructure/Migrations
+dotnet ef database update
+
+
+# Swagger
+https://127.0.0.1:7227/swagger/index.html
 
 
 ## How to run application

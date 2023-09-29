@@ -1,11 +1,8 @@
 <Project Sdk="Microsoft.NET.Sdk">
-  <ItemGroup>
-    <ProjectReference Include="..\Payment.Service.Domain\Payment.Service.Domain.csproj" />
-  </ItemGroup>
   <PropertyGroup>
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
-    <RootNamespace>Plooto.Assessment.Payment.Application</RootNamespace>
+    <RootNamespace>Plooto.Assessment.Payment.Domain</RootNamespace>
   </PropertyGroup>
 </Project>

@@ -1,0 +1,18 @@
+openapi: '3.0.2'
+info:
+  title: Payment
+  version: '1.0'
+servers:
+  - url: https://api.server.test/v1
+paths:
+  /bill:
+    get:
+      responses:
+        '200':
+          description: OK
+  /bill{id}/payment:
+    post:
+      responses:
+        '200':
+          description: OK            
+          
