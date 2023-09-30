@@ -55,7 +55,7 @@ builder.Services.Configure<IpRateLimitOptions>(options =>
             {
                 Endpoint = "*",
                 Period = "10s",
-                Limit = 2
+                Limit = 100
             }
         };
 });

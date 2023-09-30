@@ -19,13 +19,13 @@ const Header = () => {
             <span className="relative block h-5.5 w-5.5 cursor-pointer">
               <span className="du-block absolute right-0 h-full w-full">
                 <span
-                  className={`relative top-0 left-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-[0] duration-200 ease-in-out dark:bg-white w-full delay-300}`}
+                  className={`relative top-0 left-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-[0] duration-200 ease-in-out dark:bg-white}`}
                 ></span>
                 <span
-                  className={`relative top-0 left-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-150 duration-200 ease-in-out dark:bg-white delay-400 w-full                 }`}
+                  className={`relative top-0 left-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-150 duration-200 ease-in-out dark:bg-white                 }`}
                 ></span>
                 <span
-                  className={`relative top-0 left-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-200 duration-200 ease-in-out dark:bg-white w-full delay-500'                 }`}
+                  className={`relative top-0 left-0 my-1 block h-0.5 w-0 rounded-sm bg-black delay-200 duration-200 ease-in-out dark:bg-white w-full                 }`}
                 ></span>
               </span>
               <span className="absolute right-0 h-full w-full rotate-45">
@@ -72,11 +72,11 @@ const Header = () => {
                 </svg>
               </button>
 
-              <input
+              {/* <input
                 type="text"
                 placeholder="Type to search..."
                 className="w-full bg-transparent pr-4 pl-9 focus:outline-none"
-              />
+              /> */}
             </div>
           </form>
         </div>
