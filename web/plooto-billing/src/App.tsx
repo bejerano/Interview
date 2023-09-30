@@ -3,10 +3,11 @@ import './App.css'
 import { Route, Routes } from 'react-router-dom';
 import routes from './routes';
 import Loader from './components/loader/Loader';
-import Home from './page/Home';
+ 
 
 
 const DefaultLayout = lazy(() => import('./components/layout/Layout'));
+const Home = lazy(() => import('./page/Home'));
 
 function App() {
   const [loading, setLoading] = useState<boolean>(true);
