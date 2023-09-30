@@ -23,7 +23,7 @@ public class PaymentService : IPaymentService
             Func<IQueryable<Bill>, IOrderedQueryable<Bill>>? orderBy = null,
             string includeProperties = "")
     {
-        var all = _billRepository.GetAsync(filter, orderBy, includeProperties);
+        var all = _billRepository.GetAsync(filter, orderBy, "BillStatus");
         return all;
     }
 

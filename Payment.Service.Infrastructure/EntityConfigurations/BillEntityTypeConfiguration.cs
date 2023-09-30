@@ -43,7 +43,13 @@ public class BillEntityTypeConfiguration: PlootoEntityTypeConfiguration<Bill>
             .Property<string>("_vendor")
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("Vendor")
-            .IsRequired(true);          
+            .IsRequired(true);     
+
+          billConfiguration
+            .HasOne(o => o.BillStatus)
+            .WithMany()
+            .HasForeignKey("_billStatusId");   
+
       
     }
 }

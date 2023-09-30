@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Plooto.Assessment.Payment.Infrastructure;
 
@@ -11,9 +12,10 @@ using Plooto.Assessment.Payment.Infrastructure;
 namespace Plooto.Assessment.Payment.API.Infrastructure.Migrations
 {
     [DbContext(typeof(PaymentContext))]
-    partial class PaymentContextModelSnapshot : ModelSnapshot
+    [Migration("20230930200938_schema_update")]
+    partial class schema_update
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -37,7 +39,7 @@ namespace Plooto.Assessment.Payment.API.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset")
-                        .HasDefaultValue(new DateTimeOffset(new DateTime(2023, 9, 30, 22, 35, 48, 190, DateTimeKind.Unspecified).AddTicks(3569), new TimeSpan(0, 0, 0, 0, 0)));
+                        .HasDefaultValue(new DateTimeOffset(new DateTime(2023, 9, 30, 20, 9, 38, 687, DateTimeKind.Unspecified).AddTicks(4819), new TimeSpan(0, 0, 0, 0, 0)));
 
                     b.Property<string>("ModifiedBy")
                         .IsRequired()
@@ -47,9 +49,6 @@ namespace Plooto.Assessment.Payment.API.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("ModifiedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset");
-
-                    b.Property<int>("_billStatusId")
-                        .HasColumnType("int");
 
                     b.Property<DateTimeOffset>("_dueDate")
                         .HasColumnType("datetimeoffset")
@@ -77,25 +76,7 @@ namespace Plooto.Assessment.Payment.API.Infrastructure.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("_billStatusId");
-
                     b.ToTable("Bills", "billing");
-                });
-
-            modelBuilder.Entity("Plooto.Assessment.Payment.Domain.BillStatus", b =>
-                {
-                    b.Property<int>("Id")
-                        .HasColumnType("int")
-                        .HasDefaultValue(1);
-
-                    b.Property<string>("Name")
-                        .IsRequired()
-                        .HasMaxLength(200)
-                        .HasColumnType("nvarchar(200)");
-
-                    b.HasKey("Id");
-
-                    b.ToTable("BillStatus", "billing");
                 });
 
             modelBuilder.Entity("Plooto.Assessment.Payment.Domain.PaymentDetail", b =>
@@ -106,8 +87,7 @@ namespace Plooto.Assessment.Payment.API.Infrastructure.Migrations
 
                     b.Property<Guid>("BillId")
                         .HasColumnType("uniqueidentifier")
-                        .HasColumnName("BillId")
-                        .HasColumnOrder(6);
+                        .HasColumnName("BillId");
 
                     b.Property<Guid?>("BillId1")
                         .HasColumnType("uniqueidentifier");
@@ -121,7 +101,7 @@ namespace Plooto.Assessment.Payment.API.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset")
-                        .HasDefaultValue(new DateTimeOffset(new DateTime(2023, 9, 30, 22, 35, 48, 187, DateTimeKind.Unspecified).AddTicks(7255), new TimeSpan(0, 0, 0, 0, 0)));
+                        .HasDefaultValue(new DateTimeOffset(new DateTime(2023, 9, 30, 20, 9, 38, 683, DateTimeKind.Unspecified).AddTicks(5316), new TimeSpan(0, 0, 0, 0, 0)));
 
                     b.Property<string>("ModifiedBy")
                         .IsRequired()
@@ -134,31 +114,26 @@ namespace Plooto.Assessment.Payment.API.Infrastructure.Migrations
 
                     b.Property<decimal>("_amount")
                         .HasColumnType("decimal(18,2)")
-                        .HasColumnName("Amount")
-                        .HasColumnOrder(2);
+                        .HasColumnName("Amount");
 
                     b.Property<DateTimeOffset>("_debitDate")
                         .HasColumnType("datetimeoffset")
-                        .HasColumnName("DebitDate")
-                        .HasColumnOrder(3);
+                        .HasColumnName("DebitDate");
 
                     b.Property<int>("_identifier")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int")
-                        .HasColumnName("Identifier")
-                        .HasColumnOrder(1);
+                        .HasColumnName("Identifier");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("_identifier"), 1L, 1);
 
                     b.Property<int>("_method")
                         .HasColumnType("int")
-                        .HasColumnName("Method")
-                        .HasColumnOrder(5);
+                        .HasColumnName("Method");
 
                     b.Property<string>("_status")
                         .HasColumnType("nvarchar(max)")
-                        .HasColumnName("Status")
-                        .HasColumnOrder(4);
+                        .HasColumnName("Status");
 
                     b.HasKey("Id");
 
@@ -167,17 +142,6 @@ namespace Plooto.Assessment.Payment.API.Infrastructure.Migrations
                     b.HasIndex("BillId1");
 
                     b.ToTable("Payments", "billing");
-                });
-
-            modelBuilder.Entity("Plooto.Assessment.Payment.Domain.Bill", b =>
-                {
-                    b.HasOne("Plooto.Assessment.Payment.Domain.BillStatus", "BillStatus")
-                        .WithMany()
-                        .HasForeignKey("_billStatusId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("BillStatus");
                 });
 
             modelBuilder.Entity("Plooto.Assessment.Payment.Domain.PaymentDetail", b =>

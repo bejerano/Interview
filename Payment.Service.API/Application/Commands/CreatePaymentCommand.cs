@@ -3,7 +3,7 @@ using Plooto.Assessment.Payment.Application;
 
 namespace Plooto.Assessment.Payment.API;
 
-public class CreatePaymentCommand: IRequest<PaymentVM>
+public class CreatePaymentCommand: IRequest<ViewModels.PaymentVM>
 {
     public Guid BillId { get; private set; }
 

@@ -1,17 +1,3 @@
-using System.Reflection;
-using AspNetCoreRateLimit;
-using FluentValidation;
-using Microsoft.AspNetCore.OData;
-using Microsoft.OData.Edm;
-using Microsoft.OData.ModelBuilder;
-using Microsoft.OpenApi.Models;
-using Plooto.Assessment.Payment.API;
-using Plooto.Assessment.Payment.Application;
-using Plooto.Assessment.Payment.Domain.Common;
-using Plooto.Assessment.Payment.Infrastructure.Repositories;
-using Serilog;
-using Serilog.Exceptions;
-using Serilog.Sinks.Elasticsearch;
 
 
 
@@ -65,7 +51,11 @@ builder.Services.AddHealthChecks(builder.Configuration);
 builder.Services.AddDbContexts(builder.Configuration);
 builder.Services.AddApplicationLogging(builder.Configuration);
 builder.Services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
- 
+builder.Services.Configure<RouteOptions>(options =>
+{
+   options.LowercaseUrls = true;
+});
+
 var services = builder.Services;
 services.AddMediatR(cfg =>
 {

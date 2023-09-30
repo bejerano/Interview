@@ -1,4 +1,4 @@
-namespace Plooto.Assessment.Payment.API;
+namespace Plooto.Assessment.Payment.API.ViewModels;
 
 public class BillVM
 {

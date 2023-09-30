@@ -23,7 +23,7 @@ public class PaymentContext : DbContext, IUnitOfWork
     {
         modelBuilder.ApplyConfiguration(new PaymentEntityTypeConfiguration());
         modelBuilder.ApplyConfiguration(new BillEntityTypeConfiguration());
-        // modelBuilder.ApplyConfiguration(new OrderEntityTypeConfiguration());        
+        modelBuilder.ApplyConfiguration(new BillStatusEntityTypeConfiguration());      
     }
 
     public async Task<IDbContextTransaction?> BeginTransactionAsync()

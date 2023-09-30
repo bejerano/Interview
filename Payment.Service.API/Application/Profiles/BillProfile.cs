@@ -7,7 +7,7 @@ public class BillProfile: Profile
 {
     public BillProfile()
     {
-        CreateMap<Bill, BillVM>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
+        CreateMap<Bill, ViewModels.BillVM>().ForMember(dest => dest.Id, opt => opt.MapFrom(src => src.Id))
                                     .ForMember(dest => dest.Identifier, opt => opt.MapFrom(src => src.GetIdentifier()))
                                     .ForMember(dest => dest.TotalDue, opt => opt.MapFrom(src => src.GetTotalDue()))
                                     .ForMember(dest => dest.Vendor, opt => opt.MapFrom(src => src.GetVendor()))
@@ -17,25 +17,6 @@ public class BillProfile: Profile
                                
     private static string GetBillStatus(Bill src)
     {
-        if (src.GetPreviousBalance() == 0)
-        {
-            return "Paid";
-        }
-        else if (src.GetPreviousBalance() > 0 && src.GetTotalDue() > 0 && (src.GetTotalDue()  != src.GetPreviousBalance()))
-        {
-            if (src.GetDueDate() < DateTime.Now)
-            {
-                return "Overdue";
-            }
-            else
-            {
-                return "Partially Paid";
-            }
-
-        }
-        else
-        {
-            return "Unpaid";
-        }
+        return src.BillStatus.Name;        
     }
 }

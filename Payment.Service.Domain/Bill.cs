@@ -8,6 +8,7 @@ namespace Plooto.Assessment.Payment.Domain;
     private DateTimeOffset _dueDate;
     private decimal _totalDue;
     private decimal _previousBalance;
+    private int _billStatusId;
 
     public Bill()
     {
@@ -25,9 +26,12 @@ namespace Plooto.Assessment.Payment.Domain;
         _dueDate = dueDate;
         _totalDue = totalDue;
         _previousBalance = previousBalance;
+        _billStatusId = BillStatus.Unpaid.Id;
     }
 
     public IEnumerable<PaymentDetail> BillPayments { get; set; }
+     public BillStatus BillStatus { get; private set; }
+   
 
     public int GetIdentifier()
     {
@@ -54,7 +58,31 @@ namespace Plooto.Assessment.Payment.Domain;
         return _previousBalance;
     }
 
+   
 
+    public void SetBillPaidStatus()
+    {
+        if (_billStatusId == BillStatus.Partially_Paid.Id && _previousBalance == 0)        
+        {
+            _billStatusId = BillStatus.Paid.Id;
+        }
+    }
+
+    public void SetBillPartiallyPaidStatus()
+    {
+        if (_billStatusId == BillStatus.Unpaid.Id && _previousBalance > 0) 
+        {        
+            _billStatusId = BillStatus.Partially_Paid.Id;
+        }
+    }
+
+    public void SetBillOverdueStatus()
+    {
+        if ((_billStatusId == BillStatus.Unpaid.Id || _billStatusId == BillStatus.Partially_Paid.Id) && DateTimeOffset.Compare (_dueDate,DateTimeOffset.Now) < 0)
+        {
+            _billStatusId = BillStatus.Overdue.Id;
+        }
+    }
 }
 
 
