@@ -3,7 +3,6 @@ import { Outlet } from 'react-router-dom';
 import Header from '../header/Header';
 
 const DefaultLayout = () => {
- 
 
   return (
     <div className="dark:bg-boxdark-2 dark:text-bodydark">

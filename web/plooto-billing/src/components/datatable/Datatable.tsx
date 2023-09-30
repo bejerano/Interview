@@ -1,9 +1,8 @@
-import { Component, ReactNode, useState } from 'react';
+import { Component } from 'react';
 import './datatable.css';
-import ReactDOM from 'react-dom';
 
 import * as $ from "jquery";
-const DataTable = await import('datatables.net');
+await import('datatables.net');
 
 import { createRoot } from 'react-dom/client';
 
@@ -37,10 +36,6 @@ interface DataTableProps {
 
 interface DataTableState { }
 
-
-
-
-
 export class PlootoDataTable extends Component<DataTableProps, DataTableState> {
     el: any;
     
@@ -48,11 +43,9 @@ export class PlootoDataTable extends Component<DataTableProps, DataTableState> {
         super(props);
         this.state = {
         };
-
-     
-
-     
     }
+
+    
     componentDidMount() {
         
         if (!this.el) return;
@@ -63,7 +56,7 @@ export class PlootoDataTable extends Component<DataTableProps, DataTableState> {
             { title: "Amount", data: "totalDue", width: "20%", render: this.el.DataTable.render.number(null, null, 2, '$') },
             { title: "Vendor", data: "vendor", width: "40%" },
             {
-                title: "Paid", data: "status", "width": "5%", render: function (data: string, type: any, row: any) {
+                title: "Paid", data: "status", "width": "5%", render: function (data: string) {
 
                     if (data == 'Paid') {
                         return '<input type="checkbox" disabled checked class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600">';
@@ -91,18 +84,18 @@ export class PlootoDataTable extends Component<DataTableProps, DataTableState> {
                     return JSON.parse(json_data);
                 },
                 error: function (err: any) {
-                    debugger;
+                    // add toastify
+                    console.log(err.message);
                 },
             },
             columnDefs: [{
                 targets: 4,
-                createdCell: (td: HTMLElement | null, cellData: any, rowData: any, row: any, col: any) => {
+                createdCell: (td: HTMLElement | null,  rowData: any) => {
                     if (td) {
                         // Remove text 
                         while (td.hasChildNodes()) {
                             td.removeChild(td.childNodes[0]);
-                        }
-                        
+                        }                        
                         const root = document.createElement('div');    
                         td.appendChild(root);
                         const btns = createRoot(root);
@@ -112,8 +105,8 @@ export class PlootoDataTable extends Component<DataTableProps, DataTableState> {
                 orderable: false
             }],
             pagingType: 'numbers',
-            pageLength: 10,
-            lengthMenu: [10, 15, 25, 35],
+            pageLength: 5,
+            lengthMenu: [5, 15, 25, 35],
             dom: '<"top"lf<"clear">>rt<"bottom"ip<"clear">>',
             order: [[1, 'asc']],
             search: {
