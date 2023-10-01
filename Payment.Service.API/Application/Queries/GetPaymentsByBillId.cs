@@ -1,9 +1,14 @@
 
 namespace Plooto.Assessment.Payment.API;
 
-public class GetPaymewntsByBillId: IRequest<IEnumerable<ViewModels.PaymentVM>> 
-{ 
+public class GetPaymentsByBillId: IRequest<IEnumerable<ViewModels.PaymentVM>> 
+{
+    public GetPaymentsByBillId(Guid billId)
+    {
+        BillId = billId;
+    }
+
     // Add all the filters and sorting properties here
-    public Guid BillId { get; set; }
+    public Guid BillId { get; private set; }
 }
  

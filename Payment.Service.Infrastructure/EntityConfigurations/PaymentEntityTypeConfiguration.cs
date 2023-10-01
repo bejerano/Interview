@@ -57,10 +57,10 @@ public class PaymentEntityTypeConfiguration : PlootoEntityTypeConfiguration<Paym
             .IsRequired(true);
 
         paymentConfiguration
-            .HasOne<Bill>()
-            .WithMany()
-            .HasForeignKey("BillId")
-            .IsRequired(true);    
+            .HasOne(t => t.Bill)
+            .WithMany(t => t.BillPayments)
+            .HasForeignKey("BillId");
+             
       
     }
 }

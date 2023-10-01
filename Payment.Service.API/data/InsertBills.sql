@@ -94,3 +94,17 @@ WHEN NOT MATCHED THEN
 
 
 SET IDENTITY_INSERT [PaymentDb].[billing].[Bills]  OFF
+
+-- Payments
+
+MERGE INTO [PaymentDb].[billing].[Payments] AS Target
+USING (
+    SELECT B.[Id] AS BillId, B.[PreviousBalance] AS Amount, P.[BillId1] AS PaymentBillId
+    FROM [PaymentDb].[billing].[Bills] AS B
+    LEFT JOIN [PaymentDb].[billing].[Payments] AS P ON B.[Id] = P.[BillId1] -- Join with Payments to check duplicates
+    WHERE B.[_billStatusId] = 3 -- Partially Paid
+) AS Source (BillId, Amount, PaymentBillId)
+ON Target.[BillId1] = Source.PaymentBillId AND Target.[Amount] = Source.Amount
+WHEN NOT MATCHED THEN
+    INSERT (Id, BillId, Amount, DebitDate, Method, Status, CreatedBy, CreatedOn, ModifiedBy, ModifiedOn)
+    VALUES (NEWID(), Source.BillId, Source.Amount, GETDATE(), 1, 'Paid', 'Michael', GETDATE(), 'Michael', GETDATE());

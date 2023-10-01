@@ -11,9 +11,17 @@ namespace Plooto.Assessment.Payment.Domain
         private string _status;
         private PaymentMethod _method;
 
+        public PaymentDetail()
+        {
+            _amount = 0;
+            _debitDate = DateTimeOffset.MinValue;
+            _status = string.Empty;
+            _method = PaymentMethod.CreditCard;
+            _identifier = 0;
+        }
+
         public PaymentDetail(decimal amount, DateTimeOffset debitDate, string status, PaymentMethod method, int identifier)
         {
-
             _amount = amount;
             _debitDate = debitDate;
             _status = status;
@@ -22,7 +30,12 @@ namespace Plooto.Assessment.Payment.Domain
         }
 
         private Guid BillId { get; }
-        private Bill Bill { get; set; }
+        public virtual Bill Bill { get; private set; }
+
+        public Guid GetBillId()
+        {
+            return BillId;
+        }
 
         public decimal GetAmount()
         {

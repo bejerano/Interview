@@ -1,19 +1,25 @@
 
+using System.Data;
+
 namespace Plooto.Assessment.Payment.Infrastructure;
 
 public class PaymentContext : DbContext, IUnitOfWork
 {
 
     public const string DEFAULT_SCHEMA = "billing";
-    public DbSet<Bill> Bills { get; set; }
-    public DbSet<PaymentDetail> Payments { get; set; }
+    public DbSet<Bill>? Bills { get; set; }
+    public DbSet<PaymentDetail>? Payments { get; set; }
+    public DbSet<BillStatus>? BillStatuses { get; set; }
 
 
-    private IDbContextTransaction _currentTransaction;
+    private IDbContextTransaction? _currentTransaction;
 
 
-    public PaymentContext(DbContextOptions<PaymentContext> options) : base(options) { }
-
+    public PaymentContext(DbContextOptions<PaymentContext> options) : base(options) {        
+        _currentTransaction = null;       
+        ChangeTracker.LazyLoadingEnabled = false;
+    }
+       
     public IDbContextTransaction GetCurrentTransaction() => _currentTransaction;
 
     public bool HasActiveTransaction => _currentTransaction != null;

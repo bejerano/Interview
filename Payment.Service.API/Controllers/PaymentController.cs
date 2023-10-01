@@ -31,7 +31,8 @@ public class BillingController : ControllerBase
 
             return Ok(result);
         }
-        catch (Exception ex){
+        catch (Exception ex)
+        {
             _logger.LogError(ex, "---- Error getting billings");
             return BadRequest();
         }
@@ -39,38 +40,43 @@ public class BillingController : ControllerBase
 
     }
 
-        [HttpGet()]
-        [Route("{id:guid}")]
-        [ProducesResponseType(typeof(IEnumerable<ViewModels.PaymentVM>), StatusCodes.Status200OK)]
-        [ProducesResponseType(StatusCodes.Status404NotFound)]
-        public async Task<ActionResult<object>> GetBillingAsync(Guid id)
+    [HttpGet()]
+    [Route("{id:guid}")]
+    [ProducesResponseType(typeof(IEnumerable<ViewModels.PaymentVM>), StatusCodes.Status200OK)]
+    [ProducesResponseType(StatusCodes.Status404NotFound)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<object>> GetBillingAsync(Guid id)
+    {
+
+        try
         {
+            _logger.LogInformation($"---- Get all payment history request: {id}");
+            var query = new GetPaymentsByBillId(id);
+            var result = await _mediator.Send(query);
 
-            //if (order == null)
-            //{
-            //    return NotFound();
-            //}
-
-            //if (order.BuyerId != _identityService.GetUserIdentity())
-            //{
-            //    return BadRequest();
-            //}
-
-            return Ok();
+            return Ok(result);
         }
-
-        [HttpPost]
-        [Route("payment")]
-        [ProducesResponseType(StatusCodes.Status201Created)]
-        [ProducesResponseType(StatusCodes.Status400BadRequest)]
-        public async Task<ActionResult<Guid>> AddPaymentAsync([FromBody] CreatePaymentCommand billing)
+        catch (Exception ex)
         {
-            //var command = new CreateOrderCommand(billing.BuyerId, billing.BuyerName, billing.BuyerEmail, billing.Total);
-            //var result = await _mediator.Send(command);
-
-            //return CreatedAtAction(nameof(GetBillingAsync), new { id = result }, null);
-            return Ok();
+            _logger.LogError(ex, $"---- Error getting the history of payments for :{id}");
+            return BadRequest();
         }
 
 
     }
+
+    [HttpPost]
+    [Route("payment")]
+    [ProducesResponseType(StatusCodes.Status201Created)]
+    [ProducesResponseType(StatusCodes.Status400BadRequest)]
+    public async Task<ActionResult<Guid>> AddPaymentAsync([FromBody] CreatePaymentCommand billing)
+    {
+        //var command = new CreateOrderCommand(billing.BuyerId, billing.BuyerName, billing.BuyerEmail, billing.Total);
+        //var result = await _mediator.Send(command);
+
+        //return CreatedAtAction(nameof(GetBillingAsync), new { id = result }, null);
+        return Ok();
+    }
+
+
+}

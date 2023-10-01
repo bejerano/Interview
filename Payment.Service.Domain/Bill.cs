@@ -29,8 +29,8 @@ namespace Plooto.Assessment.Payment.Domain;
         _billStatusId = BillStatus.Unpaid.Id;
     }
 
-    public IEnumerable<PaymentDetail> BillPayments { get; set; }
-     public BillStatus BillStatus { get; private set; }
+    public virtual IEnumerable<PaymentDetail> BillPayments { get; set; }
+    public virtual BillStatus BillStatus { get; private set; }
    
 
     public int GetIdentifier()
