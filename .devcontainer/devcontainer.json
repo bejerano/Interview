@@ -44,7 +44,8 @@
 				"aaron-bond.better-comments",
 				"42Crunch.vscode-openapi",
 				"DavidAnson.vscode-markdownlint",
-				"yzhang.markdown-all-in-one"
+				"yzhang.markdown-all-in-one",
+				"kamikillerto.vscode-colorize"
 			]
 		}
 	},

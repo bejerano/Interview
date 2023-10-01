@@ -1,6 +1,8 @@
  
 import { Outlet } from 'react-router-dom';
 import Header from '../header/Header';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const DefaultLayout = () => {
 
@@ -13,7 +15,7 @@ const DefaultLayout = () => {
           {/* <!-- ===== Header Start ===== --> */}
           <Header />
           {/* <!-- ===== Header End ===== --> */}
-
+          <ToastContainer limit={1} />
           {/* <!-- ===== Main Content Start ===== --> */}
           <main>
             <div className="mx-auto max-w-screen-2xl p-4 md:p-6 2xl:p-10">
