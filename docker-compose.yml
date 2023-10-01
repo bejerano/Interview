@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  # SQL Server Service
+  sql-server:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    
+  # .NET Core API Service
+  api:
+    image: ${DOCKER_REGISTRY-}api
+    build:
+      context: .
+      dockerfile: Payment.Service.API/Dockerfile  
+    depends_on:
+      - sql-server
+  
+  # Web App Service (Assuming you have a Dockerfile for your web app)
+  web-app:
+    image: ${DOCKER_REGISTRY-}web
+    build:
+      context: .
+      dockerfile: web/plooto-billing/Dockerfile
+    depends_on:
+      - api

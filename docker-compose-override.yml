@@ -1,0 +1,47 @@
+version: '3.8'
+
+services:
+  # SQL Server Service
+  sql-server:    
+    environment:
+      SA_PASSWORD: P@ssw0rd
+      ACCEPT_EULA: Y
+    ports:
+      - "1433:1433" # Map host machine's port 1433 to the container's port 1433
+    networks:
+      - payment-network
+    volumes:
+      - sql-server-data:/var/opt/mssql
+
+  # .NET Core API Service
+  api:  
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=dev123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
+      # Adjust connection string
+      - ConnectionStrings__PaymentDB= "Server=sql-server,1433;Initial Catalog=PaymentDb;User Id=sa;Password=P@ssw0rd;Encrypt=false" 
+    volumes:
+      #- ~/.aspnet/https:/https:ro
+      - ./conf.d/https:/https:ro
+    ports:
+      - "5000:80"
+      - "5001:443"   
+
+    networks:
+      - payment-network
+
+  # Web App Service (Assuming you have a Dockerfile for your web app)
+  web-app:    
+    ports:
+      - "4001:80" # Map host machine's port 80 to the container's port 80
+    networks:
+      - payment-network    
+
+networks:
+  payment-network:
+    driver: bridge
+
+volumes:
+  sql-server-data:

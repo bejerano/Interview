@@ -1,7 +1,7 @@
 import { Component } from 'react';
 import './datatable.css';
 
-import * as $ from "jquery";
+import $ from "jquery";
 await import('datatables.net');
 
 import { createRoot } from 'react-dom/client';

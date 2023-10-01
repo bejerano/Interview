@@ -40,6 +40,16 @@ dotnet tool update --global dotnet-ef
 dotnet ef migrations add Initial --context Plooto.Assessment.Payment.Infrastructure.PaymentContext -o ./Infrastructure/Migrations
 dotnet ef database update
 
+# Deployment in Dockeer
+1. Create the aspnetapp.pfx certificate for local development
+2. Create the aspnetapp.pfx certificate for production
+3. Create the aspnetapp.pfx certificate for staging
+
+2. Run the docker-compose command:
+docker-compose -f docker-compose.yml -f docker-compose-override.yml  up --build -d  
+
+3. Release all containers Run the docker-compose command:
+docker-compose -f docker-compose.yml -f docker-compose-override.yml  down
 
 # Swagger
 https://127.0.0.1:7227/swagger/index.html
