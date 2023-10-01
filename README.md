@@ -55,6 +55,10 @@ docker-compose -f docker-compose.yml -f docker-compose-override.yml  down
 https://127.0.0.1:7227/swagger/index.html
 
 
+# Health Check 
+1. https://127.0.0.1:7000/healthcheck
+2. https://127.0.0.1:7000/dashboard#/healthchecks
+
 ## How to run application
 
 

@@ -10,6 +10,8 @@ global using Microsoft.AspNetCore.OData;
 global using MediatR;
 global using Microsoft.OpenApi.Models;
 global using AutoMapper;
+global using Microsoft.Extensions.Diagnostics.HealthChecks;
+
 // Logging packages
 global using Serilog;
 global using Serilog.Exceptions;

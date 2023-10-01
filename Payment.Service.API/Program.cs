@@ -2,6 +2,7 @@
 
 
 // Add services to the container.
+using HealthChecks.UI.Client;
 using Microsoft.EntityFrameworkCore;
 using Plooto.Assessment.Payment.Infrastructure;
 
@@ -51,7 +52,7 @@ builder.Services.Configure<IpRateLimitOptions>(options =>
         };
 });
 
-
+builder.Services.AddHttpClient();
 builder.Services.AddHealthChecks(builder.Configuration);
 builder.Services.AddDbContexts(builder.Configuration);
 builder.Services.AddApplicationLogging(builder.Configuration);
@@ -100,6 +101,14 @@ if (app.Environment.IsDevelopment())
         c.SwaggerEndpoint("/swagger/v1/swagger.json", "Payment API V1");
     });
 }
+
+app.MapHealthChecks("/healthcheck", new()
+{
+    Predicate = _ => true,
+    ResponseWriter = UIResponseWriter.WriteHealthCheckUIResponse
+});
+
+app.MapHealthChecksUI(options => options.UIPath = "/dashboard");
 
 app.UseHttpsRedirection();
 app.UseAuthorization();

@@ -5,6 +5,7 @@ using Serilog;
 using Serilog.Events;
 using Serilog.Sinks.Elasticsearch;
 using System.Reflection;
+using Plooto.Assessment.Payment.API.Application;
 
 namespace Plooto.Assessment.Payment.API;
 
@@ -12,14 +13,22 @@ internal static class Extensions
 {
     public static IServiceCollection AddHealthChecks(this IServiceCollection services, IConfiguration configuration)
     {
+        services.AddHealthChecksUI(options =>
+        {
+            options.AddHealthCheckEndpoint("Healthcheck API", "/healthcheck");
+        })
+        .AddInMemoryStorage(); 
+        
         var hcBuilder = services.AddHealthChecks();
+        hcBuilder.AddCheck<CustomHealthCheck>(nameof(CustomHealthCheck));
+        hcBuilder.AddCheck<ApiHealthCheck>(nameof(ApiHealthCheck));
 
-        hcBuilder
-            .AddSqlServer( 
-                configuration.GetConnectionString("PaymentDB"),
-                name: "PaymentDB-check",
-                tags: new string[] { "ready" }
-                );
+         hcBuilder
+            .AddSqlServer(connectionString: configuration.GetConnectionString("PaymentDB"),
+                          healthQuery: "SELECT 1;",
+                          name: "sql",
+                          failureStatus: HealthStatus.Degraded,
+                          tags: new string[] { "db", "sql", "sqlserver" });
 
         return services;
     }
