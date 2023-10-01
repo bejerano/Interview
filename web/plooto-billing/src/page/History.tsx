@@ -9,6 +9,7 @@ import { toast } from "react-toastify";
 import { currencyFormat } from "../common/auxiliar";
 
 
+const apiUrl = `${import.meta.env.VITE_BASE_URL}/billing/`; 
 
 const History = () => {
   const [searchParams ] = useSearchParams();
@@ -21,7 +22,7 @@ const History = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const uri = `https://127.0.0.1:7000/api/v1/billing/${id}`
+        const uri = `${apiUrl}${id}`
         const response = await fetch(uri);
         const result = await response.json();
         setData(result); // Assuming the API response is an array of objects

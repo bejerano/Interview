@@ -34,6 +34,9 @@ services:
 
   # Web App Service (Assuming you have a Dockerfile for your web app)
   web-app:    
+    environment:
+      - VITE_APP_TITLE=Plooto - Interview Challenge
+      - VITE_BASE_URL="https://api:5001/api/v1"
     ports:
       - "4001:80" # Map host machine's port 80 to the container's port 80
     networks:

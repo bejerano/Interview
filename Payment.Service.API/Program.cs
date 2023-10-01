@@ -2,6 +2,9 @@
 
 
 // Add services to the container.
+using Microsoft.EntityFrameworkCore;
+using Plooto.Assessment.Payment.Infrastructure;
+
 var builder = WebApplication.CreateBuilder(args);
 ConfigureLogging();
 builder.Host.UseSerilog();
@@ -78,6 +81,16 @@ services.AddSingleton<IValidator<CreatePaymentCommand>, CreatePaymentCommandVali
 
 var app = builder.Build();
 
+// Execute the migrations and seed the database
+using (var scope = app.Services.CreateScope())
+{
+    var autoServiceDB = scope.ServiceProvider;
+
+    var context = autoServiceDB.GetRequiredService<PaymentContext>();    
+    context.Database.Migrate();
+}
+
+
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
@@ -93,6 +106,9 @@ app.UseAuthorization();
 app.UseCors();
 app.UseIpRateLimiting();
 app.MapControllers();
+
+
+
 
 app.Run();
 

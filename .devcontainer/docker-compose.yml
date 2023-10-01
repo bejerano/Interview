@@ -5,9 +5,14 @@ services:
     build: 
       context: .
       dockerfile: Dockerfile
-
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ASPNETCORE_URLS=https://+:443;http://+:80
+      - ASPNETCORE_Kestrel__Certificates__Default__Password=dev123
+      - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
     volumes:
       - ../..:/workspaces:cached
+      - ./conf.d/https:/https:ro
 
     # Overrides default command so things don't shut down after the process ends.
     command: sleep infinity

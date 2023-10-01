@@ -98,12 +98,12 @@ export class PlootoDataTable extends Component<DataTableProps, DataTableState> {
 
 
         ];
-
+        const apiUrl = `${import.meta.env.VITE_BASE_URL}/billing`; // ajax source
         this.el.DataTable({
             //data: this.props.data,
             columns: columns,
             "ajax": {
-                "url": "https://127.0.0.1:7000/api/v1/billing", // ajax source
+                "url": apiUrl,
                 "method": "GET",
                 "dataType": "json",
                 "dataSrc": function (json: any) {
