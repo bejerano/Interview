@@ -48,10 +48,19 @@ Make sure you have the following tools installed:
 3. Run the following command to start the project using Docker Compose:
 
     ```bash
-    docker-compose up -d
+    docker-compose -f docker-compose.yml -f docker-compose-override.yml  up --build -d 
     ```
 
    This command will build and start the containers defined in `docker-compose.yml`.
+
+3. Run the following command to stop the project using Docker Compose:
+
+    ```bash
+    docker-compose -f docker-compose.yml -f docker-compose-override.yml  down
+    docker system prune -a
+    ```
+
+   This command will stop  and remove the containers defined in `docker-compose.yml`.   
 
 ### Development Environment
 
