@@ -8,7 +8,7 @@ WORKDIR /App
 COPY . ./
 
 RUN apt-get update
-# RUN apt-get install  libnspr4 libnss3 libnss3-tools -y
+RUN cd Payment.Service.API && dotnet tool update --global dotnet-ef
 # RUN chmod u+x .aspnet/common.sh && chmod u+x .aspnet/ubuntu-create-dotnet-devcert.sh
 # RUN .aspnet/ubuntu-create-dotnet-devcert.sh
 # RUN dotnet dev-certs https --clean

@@ -25,6 +25,16 @@ Brief description of your project.
 
 ## How to Execute the Project
 
+### Database
+
+1. Use SSMS or Azure Data Studio to connect to the SQL Server instance.
+2. Connect to server with this credentials: 
+    - Server: localhost,1433
+    - Login: sa
+    - Password: P@ssw0rd
+
+Done, Yeah I know is simple
+
 ### Prerequisites
 
 Make sure you have the following tools installed:

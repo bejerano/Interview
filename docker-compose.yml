@@ -4,6 +4,7 @@ services:
   # SQL Server Service
   sql-server:
     image: mcr.microsoft.com/mssql/server:2019-latest
+    restart: unless-stopped
     
   # .NET Core API Service
   api:

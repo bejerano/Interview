@@ -3,15 +3,16 @@ version: '3.8'
 services:
   # SQL Server Service
   sql-server:    
+    restart: unless-stopped
+    ports:
+      - "1433:1433"
     environment:
       SA_PASSWORD: P@ssw0rd
       ACCEPT_EULA: Y
-    ports:
-      - "1433:1433" # Map host machine's port 1433 to the container's port 1433
     networks:
       - payment-network
-    volumes:
-      - sql-server-data:/var/opt/mssql
+    # volumes:
+    #   - sql-server-data:/var/opt/mssql
 
   # .NET Core API Service
   api:  
@@ -21,13 +22,16 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Password=dev123
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       # Adjust connection string
-      - ConnectionStrings__PaymentDB= "Server=sql-server,1433;Initial Catalog=PaymentDb;User Id=sa;Password=P@ssw0rd;Encrypt=false" 
+      - ConnectionStrings__PaymentDB= Server=sql-server,1433;Database=PaymentDb;User Id=sa;Password=P@ssw0rd;Encrypt=false;TrustServerCertificate=true;Connection Timeout=30;
+      - ElasticConfiguration__Uri=http://elasticsearch:9200
     volumes:
       #- ~/.aspnet/https:/https:ro
       - ./conf.d/https:/https:ro
     ports:
       - "5000:80"
       - "5001:443"   
+    depends_on:
+      - sql-server  
 
     networks:
       - payment-network
