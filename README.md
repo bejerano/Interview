@@ -34,15 +34,8 @@ Brief description of your project.
 
 ## How to Execute the Project
 
-### Database
 
-1. Use SSMS or Azure Data Studio to connect to the SQL Server instance.
-2. Connect to server with this credentials: 
-    - Server: localhost,1433
-    - Login: sa
-    - Password: P@ssw0rd
 
-Done, Yeah I know is simple
 
 ### Prerequisites
 
@@ -82,14 +75,53 @@ Make sure you have the following tools installed:
 
    This command will stop  and remove the containers defined in `docker-compose.yml`.   
 
-### Development Environment
+## Urls
+
+### WebApp
+https://localhost:4001
+### Swagger
+https://localhost:5001/swagger/index.html
+
+
+### Health Check 
+https://localhost:5001/dashboard#/healthchecks
+
+### Database
+
+#### ERD Diagram
+```mermaid
+erDiagram
+          BILLS ||--o{Payments : has
+          BILLS}o--|| BILLSTATUS : is_on
+          
+```
+
+1. Use SSMS or Azure Data Studio to connect to the SQL Server instance.
+2. Connect to server with this credentials: 
+    - Server: localhost,1433
+    - Login: sa
+    - Password: P@ssw0rd
+
+Go to the folder `Payment.Service.API/data/insertBills` and run the sql script to populated the database:
+
+```bash
+
+## Development Environment
 
 #### Using Visual Studio Code with DevContainers
 
 1. Open the project in Visual Studio Code.
 2. Install the recommended extensions for DevContainers.
+   1. Remote Development (ms-vscode-remote.vscode-remote-extensionpack)
+
+![](docs/vscode.png)
+*Caption for Dev Environment.*
+
 3. Click on the green pop-up at the bottom right (or use F1 and search for "Reopen in Container").
-4. Visual Studio Code will automatically set up the development environment inside a container.
+4. Visual Code will automatically set up the development environment inside a container (voila, now you have the full app ready for dev).
+
+![](docs/vscode_exec.png)
+*Caption for How to debug the app.*
 
 ##### Configurations
 1. Add the deveploment certificate config. 
@@ -112,31 +144,26 @@ vscode ➜ /workspaces/Interviews/Payment.Service.API (main) $ dotnet ef databas
 
 ## Assumptions
 
-- List any assumptions made during the development of the project.
-
+- Bill state flow is: 
+```mermaid
+    stateDiagram-v2
+        [*] --> Unpaid
+        Unpaid --> Overdue
+        Unpaid --> Partially_Paid    
+        Patially_Paid --> Overdue
+        Partially_Paid --> Paid
+        Overdue --> Paid
+        Paid --> [*]
+```
 ## Extras
 
 - Any additional information you want to provide, such as future plans, known issues, or special thanks.
-
-
-
-
-
-
-
-
-
-
-
 
 ## Validation
 Data validation using [FluentValidation](https://github.com/JeremySkinner/FluentValidation)
 
 ## Caching
 Recommended Cache-Aside pattern and Redis cache. : Not Implemented
-
-## Integration
-Not Implemented
 
 ## Troubleshooting
 Outbox Pattern implementation using [Quartz.NET](https://github.com/quartznet/quartznet)
@@ -151,13 +178,6 @@ Outbox Pattern implementation using [Quartz.NET](https://github.com/quartznet/qu
 docker-compose -f docker-compose.elk.yml up
 
 ## Open browser
-Kiabana: http://localhost:5601
+Kibana: http://localhost:5601
 
 
-# Swagger
-https://127.0.0.1:7227/swagger/index.html
-
-
-# Health Check 
-1. https://127.0.0.1:7000/healthcheck
-2. https://127.0.0.1:7000/dashboard#/healthchecks
