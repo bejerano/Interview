@@ -3,7 +3,7 @@ namespace Plooto.Assessment.Payment.Domain;
 
     public class Bill : PlootoEntity
 {
-    private int _identifier;
+    private int _identifierUI;
     private string _vendor;
     private DateTimeOffset _dueDate;
     private decimal _totalDue;
@@ -12,7 +12,7 @@ namespace Plooto.Assessment.Payment.Domain;
 
     public Bill()
     {
-        _identifier = 0;
+        _identifierUI = 0;
         _vendor = string.Empty;
         _dueDate = DateTimeOffset.MinValue;
         _totalDue = 0;
@@ -21,7 +21,7 @@ namespace Plooto.Assessment.Payment.Domain;
     
     public Bill(int identifier, string vendor, DateTimeOffset dueDate, decimal totalDue, decimal previousBalance)
     {
-        _identifier = identifier;
+        _identifierUI = identifier;
         _vendor = vendor;
         _dueDate = dueDate;
         _totalDue = totalDue;
@@ -29,13 +29,13 @@ namespace Plooto.Assessment.Payment.Domain;
         _billStatusId = BillStatus.Unpaid.Id;
     }
 
-    public virtual IEnumerable<PaymentDetail> BillPayments { get; set; }
+    public virtual ICollection<PaymentDetail> BillPayments { get; set; }
     public virtual BillStatus BillStatus { get; private set; }
    
 
     public int GetIdentifier()
     {
-        return _identifier;
+        return _identifierUI;
     }
 
     public string GetVendor()
@@ -82,6 +82,15 @@ namespace Plooto.Assessment.Payment.Domain;
         {
             _billStatusId = BillStatus.Overdue.Id;
         }
+    }
+
+    public void Pay(decimal amount)
+    {
+        if (amount > 0)
+        {
+            _previousBalance = _previousBalance - amount;
+        }
+        SetBillOverdueStatus();
     }
 }
 

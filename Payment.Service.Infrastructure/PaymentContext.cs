@@ -32,14 +32,12 @@ public class PaymentContext : DbContext, IUnitOfWork
         modelBuilder.ApplyConfiguration(new BillStatusEntityTypeConfiguration());      
     }
 
-    public async Task<IDbContextTransaction?> BeginTransactionAsync()
+    public async Task BeginTransactionAsync()
     {
         if (_currentTransaction != null) 
-        return null;
+        return;
 
         _currentTransaction = await Database.BeginTransactionAsync(IsolationLevel.ReadCommitted);
-
-        return _currentTransaction;
     }
 
     private async Task CommitTransactionAsync(IDbContextTransaction transaction)
@@ -65,6 +63,18 @@ public class PaymentContext : DbContext, IUnitOfWork
                 _currentTransaction = null;
             }
         }
+    }
+
+    public async Task ExecuteTransaction(Func<Task> action)
+    {
+        var strategy = this.Database.CreateExecutionStrategy();
+        await strategy.ExecuteAsync(async () =>
+        {
+            await BeginTransactionAsync();
+            await action();
+            var transd = GetCurrentTransaction(); 
+            await CommitTransactionAsync(transd);
+        });        
     }
 
     public void RollbackTransaction()

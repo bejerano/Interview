@@ -15,10 +15,10 @@ public abstract class PlootoEntityTypeConfiguration<TEntity> : IEntityTypeConfig
             .HasDefaultValue(DateTimeOffset.Now)
             .IsRequired();
         baseConfiguration.Property(cr => cr.ModifiedBy)
-                         .ValueGeneratedOnAdd()
-                         .IsRequired();
+            .HasDefaultValue("Plooto Default")
+            .IsRequired();
         baseConfiguration.Property(cr => cr.ModifiedOn)
-                         .ValueGeneratedOnAdd()
-                         .IsRequired();
+            .HasDefaultValue(DateTimeOffset.Now)
+            .IsRequired();
     }
 }

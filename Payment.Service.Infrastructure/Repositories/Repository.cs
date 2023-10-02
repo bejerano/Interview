@@ -39,14 +39,10 @@ public class Repository<TEntity> : IRepository<TEntity>, IDisposable where TEnti
         }
     }
 
-    public virtual async Task<TEntity> GetByIDAsync(object id)
-    {
-        if (id == null)
-        {
-            throw new ArgumentNullException(nameof(id));
-        }
-
-        return await dbSet.FindAsync(id);
+    public virtual async Task<TEntity> GetByIDAsync(Guid id, string includeProperties)
+    {        
+         var item = await this.GetAsync(x => x.Id == id, null, includeProperties);        
+        return  item.FirstOrDefault();
     }
 
     public virtual async Task InsertAsync(TEntity entity)

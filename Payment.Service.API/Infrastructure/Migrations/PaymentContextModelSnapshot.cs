@@ -37,16 +37,18 @@ namespace Plooto.Assessment.Payment.API.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset")
-                        .HasDefaultValue(new DateTimeOffset(new DateTime(2023, 10, 1, 2, 0, 58, 152, DateTimeKind.Unspecified).AddTicks(1370), new TimeSpan(0, 0, 0, 0, 0)));
+                        .HasDefaultValue(new DateTimeOffset(new DateTime(2023, 10, 2, 3, 23, 35, 455, DateTimeKind.Unspecified).AddTicks(4843), new TimeSpan(0, 0, 0, 0, 0)));
 
                     b.Property<string>("ModifiedBy")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("Plooto Default");
 
                     b.Property<DateTimeOffset>("ModifiedOn")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset");
+                        .HasColumnType("datetimeoffset")
+                        .HasDefaultValue(new DateTimeOffset(new DateTime(2023, 10, 2, 3, 23, 35, 455, DateTimeKind.Unspecified).AddTicks(5842), new TimeSpan(0, 0, 0, 0, 0)));
 
                     b.Property<int>("_billStatusId")
                         .HasColumnType("int");
@@ -55,12 +57,9 @@ namespace Plooto.Assessment.Payment.API.Infrastructure.Migrations
                         .HasColumnType("datetimeoffset")
                         .HasColumnName("DueDate");
 
-                    b.Property<int>("_identifier")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("_identifierUI")
                         .HasColumnType("int")
                         .HasColumnName("Identifier");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("_identifier"), 1L, 1);
 
                     b.Property<decimal>("_previousBalance")
                         .HasColumnType("decimal(18,2)")
@@ -118,16 +117,18 @@ namespace Plooto.Assessment.Payment.API.Infrastructure.Migrations
                     b.Property<DateTimeOffset>("CreatedOn")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("datetimeoffset")
-                        .HasDefaultValue(new DateTimeOffset(new DateTime(2023, 10, 1, 2, 0, 58, 150, DateTimeKind.Unspecified).AddTicks(2230), new TimeSpan(0, 0, 0, 0, 0)));
+                        .HasDefaultValue(new DateTimeOffset(new DateTime(2023, 10, 2, 3, 23, 35, 453, DateTimeKind.Unspecified).AddTicks(8360), new TimeSpan(0, 0, 0, 0, 0)));
 
                     b.Property<string>("ModifiedBy")
                         .IsRequired()
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("nvarchar(max)");
+                        .HasColumnType("nvarchar(max)")
+                        .HasDefaultValue("Plooto Default");
 
                     b.Property<DateTimeOffset>("ModifiedOn")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("datetimeoffset");
+                        .HasColumnType("datetimeoffset")
+                        .HasDefaultValue(new DateTimeOffset(new DateTime(2023, 10, 2, 3, 23, 35, 453, DateTimeKind.Unspecified).AddTicks(9399), new TimeSpan(0, 0, 0, 0, 0)));
 
                     b.Property<decimal>("_amount")
                         .HasColumnType("decimal(18,2)")
@@ -139,13 +140,10 @@ namespace Plooto.Assessment.Payment.API.Infrastructure.Migrations
                         .HasColumnName("DebitDate")
                         .HasColumnOrder(3);
 
-                    b.Property<int>("_identifier")
-                        .ValueGeneratedOnAdd()
+                    b.Property<int>("_identifierUI")
                         .HasColumnType("int")
                         .HasColumnName("Identifier")
                         .HasColumnOrder(1);
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("_identifier"), 1L, 1);
 
                     b.Property<int>("_method")
                         .HasColumnType("int")

@@ -14,8 +14,7 @@ public class BillEntityTypeConfiguration: PlootoEntityTypeConfiguration<Bill>
         billConfiguration.HasKey(o => o.Id);
 
         billConfiguration
-            .Property<int>("_identifier")
-            .ValueGeneratedOnAdd()
+            .Property<int>("_identifierUI")            
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("Identifier")
             .IsRequired(true);

@@ -15,8 +15,8 @@ public class PaymentEntityTypeConfiguration : PlootoEntityTypeConfiguration<Paym
         paymentConfiguration.HasKey(o => o.Id);   
 
          paymentConfiguration
-            .Property<int>("_identifier")            
-            .ValueGeneratedOnAdd()            
+            .Property<int>("_identifierUI")            
+            //.ValueGeneratedOnAdd()            
             .UsePropertyAccessMode(PropertyAccessMode.Field)
             .HasColumnName("Identifier")
             .HasColumnOrder(1)

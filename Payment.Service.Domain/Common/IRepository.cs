@@ -9,7 +9,7 @@ public interface IRepository<T> : IDisposable where T : PlootoEntity, new()
             Func<IQueryable<T>, IOrderedQueryable<T>>? orderBy = null,
             string includeProperties = "");
 
-    Task<T> GetByIDAsync(object id);
+    Task<T> GetByIDAsync(Guid id, string includeProperties);
     Task InsertAsync(T entity);
     void Update(T entityToUpdate);   
 }

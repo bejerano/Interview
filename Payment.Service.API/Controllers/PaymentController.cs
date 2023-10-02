@@ -69,14 +69,19 @@ public class BillingController : ControllerBase
     [Route("payment")]
     [ProducesResponseType(StatusCodes.Status201Created)]
     [ProducesResponseType(StatusCodes.Status400BadRequest)]
-    public async Task<ActionResult<Guid>> AddPaymentAsync([FromBody] CreatePaymentCommand billing)
+    public async Task<ActionResult<Guid>> AddPaymentAsync([FromBody] CreatePaymentCommand payment)
     {
-        //var command = new CreateOrderCommand(billing.BuyerId, billing.BuyerName, billing.BuyerEmail, billing.Total);
-        //var result = await _mediator.Send(command);
+        try
+        {
+            _logger.LogInformation($"---- Add payment request: {payment.BillId}");
+            var result = await _mediator.Send(payment);
 
-        //return CreatedAtAction(nameof(GetBillingAsync), new { id = result }, null);
-        return Ok();
-    }
-
-
+            return CreatedAtAction(nameof(GetBillingAsync), new { id = result }, result);
+        }
+        catch (Exception ex)
+        {
+            _logger.LogError(ex, $"---- Error adding payment for :{payment.BillId}");
+            return BadRequest();
+        }
+    }  
 }
