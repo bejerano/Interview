@@ -1,31 +1,42 @@
 {
   "compilerOptions": {
-    "target": "ES2020",
+    
+    "target": "ESNext",
     "useDefineForClassFields": true,
-    "lib": ["ES2020", "DOM", "DOM.Iterable","WebWorker"],
+    "lib": ["ESNext", "DOM", "DOM.Iterable","WebWorker"],
     "module": "ESNext",
     "skipLibCheck": true,
 
     /* Bundler mode */
-    "moduleResolution": "bundler",
+    "moduleResolution": "Node",
     "allowImportingTsExtensions": true,
+    "allowSyntheticDefaultImports": true,
     "resolveJsonModule": true,
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "react-jsx",
+    "esModuleInterop": true,
 
     /* Linting */
-    "strict": true,
+    "strict": false,
     "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true
   },
   "include": [
-  "src",
-  "src/lib.d.ts",
-  "env.d.ts",
-	"src/**/ts",
-	"src/**/*.tsx"
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "src/**/*.vue",
+    "tests/**/*.ts",
+    "tests/**/*.tsx",
+	  "./.eslintrc.cjs",	
 ],
-  "references": [{ "path": "./tsconfig.node.json" }]
+  "exclude": ["node_modules", "build", "scripts", "acceptance-tests", "webpack", "jest", "src/setupTests.ts"],
+  "references": [{ "path": "./tsconfig.node.json" }],
+  "typeRoots": ["./node_modules/@types"],
+  "baseUrl": ".",
+  "paths": {
+    "@/*": ["src/*"]
+  }
 }

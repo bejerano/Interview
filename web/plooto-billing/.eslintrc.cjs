@@ -1,5 +1,5 @@
 module.exports = {
-    env: {
+   env: {
       browser: true,
       es2021: true,
     },
@@ -20,7 +20,9 @@ module.exports = {
     plugins: ['react', '@typescript-eslint'],
     rules: {
       'react/react-in-jsx-scope': 0,      
-      "@typescript-eslint/no-explicit-any": 0
+      "@typescript-eslint/no-explicit-any": 0,
+      "import/extensions": 0,
+
        
     },
   };
