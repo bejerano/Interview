@@ -17,11 +17,20 @@ Brief description of your project.
 
 ## Screenshots
 
-![Screenshot 1](/screenshots/screenshot1.png)
-*Caption for Screenshot 1.*
+![](docs/Home.png)
+*Caption for Home Page*
 
-![Screenshot 2](/screenshots/screenshot2.png)
-*Caption for Screenshot 2.*
+![](docs/History.png)
+*Caption for History Page.*
+
+![](docs/payment.png)
+*Caption for Payment Page.*
+
+![](docs/swagger.png)
+*Caption for Swagger Page.*
+
+![](docs/hc.png)
+*Caption for HalthCheck Page.*
 
 ## How to Execute the Project
 
