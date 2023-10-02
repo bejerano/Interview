@@ -104,7 +104,7 @@ erDiagram
 
 Go to the folder `Payment.Service.API/data/insertBills` and run the sql script to populated the database:
 
-```bash
+
 
 ## Development Environment
 
