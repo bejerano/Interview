@@ -46,19 +46,20 @@ Make sure you have the following tools installed:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/your-username/your-repo.git
+    git clone https://github.com/plootoinc/BE-take-home-task-JoseBejerano.git
     ```
 
-2. Navigate to the project directory:
+2. Navigate to the project directory (skip if just want to run the app):
 
     ```bash
-    cd your-repo
+    vscode ➜ /workspaces/Interviews (main) $cd cd Payment.Service.API -- API
+    vscode ➜ /workspaces/Interviews (main) $cd cd web/plooto-billing  -- WebApp
     ```
 
 3. Run the following command to start the project using Docker Compose:
 
     ```bash
-    docker-compose -f docker-compose.yml -f docker-compose-override.yml  up --build -d 
+    vscode ➜ /workspaces/Interviews (main) $ docker-compose -f docker-compose.yml -f docker-compose-override.yml  up --build -d 
     ```
 
    This command will build and start the containers defined in `docker-compose.yml`.
@@ -66,8 +67,8 @@ Make sure you have the following tools installed:
 3. Run the following command to stop the project using Docker Compose:
 
     ```bash
-    docker-compose -f docker-compose.yml -f docker-compose-override.yml  down
-    docker system prune -a
+    vscode ➜ /workspaces/Interviews (main) $ docker-compose -f docker-compose.yml -f docker-compose-override.yml  down
+    vscode ➜ /workspaces/Interviews (main) $ docker system prune -a
     ```
 
    This command will stop  and remove the containers defined in `docker-compose.yml`.   
@@ -80,6 +81,25 @@ Make sure you have the following tools installed:
 2. Install the recommended extensions for DevContainers.
 3. Click on the green pop-up at the bottom right (or use F1 and search for "Reopen in Container").
 4. Visual Studio Code will automatically set up the development environment inside a container.
+
+##### Configurations
+1. Add the deveploment certificate config. 
+```
+vscode ➜ /workspaces/Interviews/Payment.Service.API (main) $  cd Payment.Service.API
+vscode ➜ /workspaces/Interviews/Payment.Service.API (main) $  dotnet dev-certs https -t
+```
+
+2. To add changes to the database use EF Migrations
+```
+
+vscode ➜ /workspaces/Interviews/Payment.Service.API (main) $  cd Payment.Service.API
+
+vscode ➜ /workspaces/Interviews/Payment.Service.API (main) $  dotnet tool update --global dotnet-ef
+
+vscode ➜ /workspaces/Interviews/Payment.Service.API (main) $  dotnet ef migrations add Initial --context Plooto.Assessment.Payment.Infrastructure.PaymentContext -o ./Infrastructure/Migrations
+
+vscode ➜ /workspaces/Interviews/Payment.Service.API (main) $ dotnet ef database update
+```
 
 ## Assumptions
 
@@ -104,12 +124,19 @@ Make sure you have the following tools installed:
 Data validation using [FluentValidation](https://github.com/JeremySkinner/FluentValidation)
 
 ## Caching
-Using Cache-Aside pattern and in-memory cache.
+Recommended Cache-Aside pattern and Redis cache. : Not Implemented
 
 ## Integration
+Not Implemented
+
+## Troubleshooting
 Outbox Pattern implementation using [Quartz.NET](https://github.com/quartznet/quartznet)
 
-## Related blog articles
+#### Deployment in Docker
+1. Create the aspnetapp.pfx certificate for local development
+2. Update the docker-compose.override.yml file with the certificate path
+
+ 
 
 # Start Logging Server
 docker-compose -f docker-compose.elk.yml up
@@ -117,24 +144,6 @@ docker-compose -f docker-compose.elk.yml up
 ## Open browser
 Kiabana: http://localhost:5601
 
-#Certificates
-dotnet dev-certs https -t
-
-#Migrations
-dotnet tool update --global dotnet-ef
-dotnet ef migrations add Initial --context Plooto.Assessment.Payment.Infrastructure.PaymentContext -o ./Infrastructure/Migrations
-dotnet ef database update
-
-# Deployment in Dockeer
-1. Create the aspnetapp.pfx certificate for local development
-2. Create the aspnetapp.pfx certificate for production
-3. Create the aspnetapp.pfx certificate for staging
-
-2. Run the docker-compose command:
-docker-compose -f docker-compose.yml -f docker-compose-override.yml  up --build -d  
-
-3. Release all containers Run the docker-compose command:
-docker-compose -f docker-compose.yml -f docker-compose-override.yml  down
 
 # Swagger
 https://127.0.0.1:7227/swagger/index.html
@@ -143,9 +152,3 @@ https://127.0.0.1:7227/swagger/index.html
 # Health Check 
 1. https://127.0.0.1:7000/healthcheck
 2. https://127.0.0.1:7000/dashboard#/healthchecks
-
-## How to run application
-
-
-## How to run Integration Tests
-
