@@ -166,7 +166,6 @@ Data validation using [FluentValidation](https://github.com/JeremySkinner/Fluent
 Recommended Cache-Aside pattern and Redis cache. : Not Implemented
 
 ## Troubleshooting
-Outbox Pattern implementation using [Quartz.NET](https://github.com/quartznet/quartznet)
 
 #### Deployment in Docker
 1. Create the aspnetapp.pfx certificate for local development
@@ -174,7 +173,7 @@ Outbox Pattern implementation using [Quartz.NET](https://github.com/quartznet/qu
 
  
 
-# Start Logging Server
+# Start Logging Server (Not Tested)
 docker-compose -f docker-compose.elk.yml up
 
 ## Open browser

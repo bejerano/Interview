@@ -64,6 +64,10 @@ function Payment() {
         toast.info(_data.message, {
           position: toast.POSITION.TOP_RIGHT,
         });
+        
+        setAmount('0');
+        setDebitDate('');
+        setPaymentMethod('');
 
         setLoading(false);
       }).catch((_err: any) => {
