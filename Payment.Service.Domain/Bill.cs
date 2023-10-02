@@ -1,6 +1,10 @@
 
 namespace Plooto.Assessment.Payment.Domain;
 
+
+ 
+
+
     public class Bill : PlootoEntity
 {
     private int _identifierUI;
@@ -62,7 +66,10 @@ namespace Plooto.Assessment.Payment.Domain;
 
     public void SetBillPaidStatus()
     {
-        if (_billStatusId == BillStatus.Partially_Paid.Id && _previousBalance == 0)        
+        if ((_billStatusId == BillStatus.Partially_Paid.Id || 
+            _billStatusId == BillStatus.Unpaid.Id || 
+            _billStatusId == BillStatus.Overdue.Id )
+             && _previousBalance == 0)        
         {
             _billStatusId = BillStatus.Paid.Id;
         }
@@ -86,15 +93,10 @@ namespace Plooto.Assessment.Payment.Domain;
 
     public void Pay(decimal amount)
     {
-        if (amount > 0)
+        if (amount > 0 && _previousBalance > 0)
         {
-            _previousBalance = _previousBalance - amount;
+            _previousBalance -= amount;
         }
         SetBillOverdueStatus();
     }
 }
-
-
-
-
-

@@ -76,7 +76,10 @@ public class BillingController : ControllerBase
             _logger.LogInformation($"---- Add payment request: {payment.BillId}");
             var result = await _mediator.Send(payment);
 
-            return CreatedAtAction(nameof(GetBillingAsync), new { id = result }, result);
+            return  Ok("Payment successful!");
+        }
+        catch (PaymentOverdueException ex){
+           return Ok("Payment successfull, but your payments are over due");
         }
         catch (Exception ex)
         {

@@ -21,5 +21,6 @@ global using Serilog.Sinks.Elasticsearch;
 global using Plooto.Assessment.Payment.API;
 global using Plooto.Assessment.Payment.Application;
 global using Plooto.Assessment.Payment.Domain.Common;
+global using Plooto.Assessment.Payment.Domain.Exceptions;
 global using Plooto.Assessment.Payment.Infrastructure.Repositories;
 global using Plooto.Assessment.Payment.API.ViewModels;

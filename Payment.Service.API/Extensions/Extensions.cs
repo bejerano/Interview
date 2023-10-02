@@ -16,9 +16,18 @@ internal static class Extensions
         services.AddHealthChecksUI(options =>
         {
             options.AddHealthCheckEndpoint("Healthcheck API", "/healthcheck");
+            options.UseApiEndpointHttpMessageHandler(sp =>
+            {
+                return new HttpClientHandler
+                {
+                    ClientCertificateOptions = ClientCertificateOption.Manual,
+                    ServerCertificateCustomValidationCallback = (httpRequestMessage, cert, cetChain, policyErrors) => { return true; }
+                };
+            });
         })
         .AddInMemoryStorage(); 
-        
+
+           
         var hcBuilder = services.AddHealthChecks();
         hcBuilder.AddCheck<CustomHealthCheck>(nameof(CustomHealthCheck));
         hcBuilder.AddCheck<ApiHealthCheck>(nameof(ApiHealthCheck));
