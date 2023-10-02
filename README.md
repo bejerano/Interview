@@ -1,17 +1,83 @@
-Interview .NET Core REST API CQRS implementation with raw SQL and DDD using Clean Architecture.
-==============================================================
-~~~~
-## Description
+# Plooto - Interview .NET Core REST API && ReactJS
 
-## CQRS
+Brief description of your project.
 
-Read Model - executing raw SQL scripts on database views objects (using [Dapper](https://github.com/StackExchange/Dapper)).
+## Business Features
 
-Write Model - Domain Driven Design approach (using Entity Framework Core).
+- **List Bills:** View all available bills.
+- **View Payment History:** Access the history of paid bills.
+- **Add New Payments:** Add new payment records.
 
-Commands/Queries/Domain Events handling using [MediatR](https://github.com/jbogard/MediatR) library.
+## Technical Features
 
-## Domain
+- **OData Support:** Enable querying and manipulation of data through OData.
+- **Health Check:** Implement health checks for monitoring the application's status.
+- **CORS Configuration:** Manage Cross-Origin Resource Sharing for enhanced security.
+- **Throttling:** Implement request throttling to prevent abuse and optimize performance.
+
+## Screenshots
+
+![Screenshot 1](/screenshots/screenshot1.png)
+*Caption for Screenshot 1.*
+
+![Screenshot 2](/screenshots/screenshot2.png)
+*Caption for Screenshot 2.*
+
+## How to Execute the Project
+
+### Prerequisites
+
+Make sure you have the following tools installed:
+
+- [Docker](https://www.docker.com/)
+
+### Using Docker Compose
+
+1. Clone the repository:
+
+    ```bash
+    git clone https://github.com/your-username/your-repo.git
+    ```
+
+2. Navigate to the project directory:
+
+    ```bash
+    cd your-repo
+    ```
+
+3. Run the following command to start the project using Docker Compose:
+
+    ```bash
+    docker-compose up -d
+    ```
+
+   This command will build and start the containers defined in `docker-compose.yml`.
+
+### Development Environment
+
+#### Using Visual Studio Code with DevContainers
+
+1. Open the project in Visual Studio Code.
+2. Install the recommended extensions for DevContainers.
+3. Click on the green pop-up at the bottom right (or use F1 and search for "Reopen in Container").
+4. Visual Studio Code will automatically set up the development environment inside a container.
+
+## Assumptions
+
+- List any assumptions made during the development of the project.
+
+## Extras
+
+- Any additional information you want to provide, such as future plans, known issues, or special thanks.
+
+
+
+
+
+
+
+
+
 
 
 
