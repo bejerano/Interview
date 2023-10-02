@@ -22,8 +22,9 @@ function App() {
     <Routes>
       <Route element={<DefaultLayout />}>
         <Route index element={<Home />} />
-        {routes.map(({ path, component: Component }) => (
+        {routes.map(({ path, component: Component, title }) => (
           <Route
+            key={title}
             path={path}
             element={(
               <Suspense fallback={<Loader />}>

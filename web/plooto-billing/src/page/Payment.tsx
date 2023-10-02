@@ -42,7 +42,6 @@ function Payment() {
   const handleSubmit = async (_event: any) => {
     _event.preventDefault();
     setLoading(true);
-    debugger;
 
     const payload = {
       billId: id,
@@ -62,7 +61,6 @@ function Payment() {
 
     rawResponse.then((res) => res.json())
       .then((_data: any) => {
-        debugger;
         toast.info(_data.message, {
           position: toast.POSITION.TOP_RIGHT,
         });
@@ -97,7 +95,7 @@ function Payment() {
       </div>
 
       <div className="w-full max-w-sm p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8 dark:bg-gray-800 dark:border-gray-700">
-        { error && <Toaster /> }
+        { (error || loading) && <Toaster /> }
         <form onSubmit={handleSubmit}>
           <div className="relative z-0 w-full mb-6 group">
             <input

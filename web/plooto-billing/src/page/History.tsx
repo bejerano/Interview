@@ -33,7 +33,7 @@ function History() {
     };
 
     fetchData();
-  }, []);
+  }, [id, apiUrl]);
 
   if (loading) {
     return <Loader />;
