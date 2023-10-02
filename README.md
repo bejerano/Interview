@@ -150,7 +150,7 @@ vscode ➜ /workspaces/Interviews/Payment.Service.API (main) $ dotnet ef databas
         [*] --> Unpaid
         Unpaid --> Overdue
         Unpaid --> Partially_Paid    
-        Patially_Paid --> Overdue
+        Partially_Paid --> Overdue
         Partially_Paid --> Paid
         Overdue --> Paid
         Paid --> [*]
