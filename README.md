@@ -33,7 +33,7 @@ Brief description of your project.
 ![](docs/Home.png)
 *Caption for Home Page*
 
-![](docs/History.png)
+![](docs/history.png)
 *Caption for History Page.*
 
 ![](docs/payment.png)
