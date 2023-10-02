@@ -1,10 +1,10 @@
-import { Suspense, lazy, useEffect, useState } from 'react'
-import './App.css'
+import {
+  Suspense, lazy, useEffect, useState,
+} from 'react';
+import './App.css';
 import { Route, Routes } from 'react-router-dom';
 import routes from './routes';
 import Loader from './components/loader/Loader';
- 
-
 
 const DefaultLayout = lazy(() => import('./components/layout/Layout'));
 const Home = lazy(() => import('./page/Home'));
@@ -21,20 +21,20 @@ function App() {
   ) : (
     <Routes>
       <Route element={<DefaultLayout />}>
-      <Route index element={<Home />} />
+        <Route index element={<Home />} />
         {routes.map(({ path, component: Component }) => (
           <Route
             path={path}
-            element={
+            element={(
               <Suspense fallback={<Loader />}>
                 <Component />
               </Suspense>
-            }
+            )}
           />
         ))}
       </Route>
     </Routes>
-  )
+  );
 }
 
-export default App
+export default App;

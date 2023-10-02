@@ -1,38 +1,33 @@
-import { createSearchParams, useNavigate } from "react-router-dom";
-import { PlootoDataTable } from "../components/datatable/Datatable";
-import Breadcrumb from "../components/header/Breadcrumb";
+import { createSearchParams, useNavigate } from 'react-router-dom';
+import { PlootoDataTable } from '../components/datatable/Datatable';
+import Breadcrumb from '../components/header/Breadcrumb';
 
-
-
-const Home = () => {
+function Home() {
   const navigate = useNavigate();
 
   const handlePayClick = (identifier: string, billId: string) => {
-    
     navigate(
       {
         pathname: '/payment',
         search: createSearchParams({
           id: billId,
-          identifier: identifier
-        }).toString()
+          identifier,
+        }).toString(),
       },
-      { replace: true }
+      { replace: true },
     );
-  }
-
+  };
 
   const handleViewPaymentsClick = (identifier: string, billId: string) => {
-    
     navigate(
       {
         pathname: '/history',
         search: createSearchParams({
           id: billId,
-          identifier: identifier
-        }).toString()
+          identifier,
+        }).toString(),
       },
-      { replace: true }
+      { replace: true },
     );
   };
 

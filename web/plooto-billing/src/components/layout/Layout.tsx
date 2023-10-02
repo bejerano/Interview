@@ -1,15 +1,13 @@
- 
 import { Outlet } from 'react-router-dom';
-import Header from '../header/Header';
 import { ToastContainer } from 'react-toastify';
+import Header from '../header/Header';
 import 'react-toastify/dist/ReactToastify.css';
 
-const DefaultLayout = () => {
-
+function DefaultLayout() {
   return (
     <div className="dark:bg-boxdark-2 dark:text-bodydark">
       {/* <!-- ===== Page Wrapper Start ===== --> */}
-      <div className="flex h-screen overflow-hidden">    
+      <div className="flex h-screen overflow-hidden">
         {/* <!-- ===== Content Area Start ===== --> */}
         <div className="relative flex flex-1 flex-col overflow-y-auto overflow-x-hidden">
           {/* <!-- ===== Header Start ===== --> */}
@@ -29,6 +27,6 @@ const DefaultLayout = () => {
       {/* <!-- ===== Page Wrapper End ===== --> */}
     </div>
   );
-};
+}
 
 export default DefaultLayout;
