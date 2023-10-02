@@ -14,6 +14,19 @@ Brief description of your project.
 - **Health Check:** Implement health checks for monitoring the application's status.
 - **CORS Configuration:** Manage Cross-Origin Resource Sharing for enhanced security.
 - **Throttling:** Implement request throttling to prevent abuse and optimize performance.
+- **Containerization:** Use Docker to containerize the application and the development environment.
+- **Logging:** Use Serilog to log application events.
+- **API Documentation:** Use Swagger to document the API.
+- **Unit Testing:** Use xUnit and Moq to write unit tests(I did not have time to implement it).
+- **Integration Testing:** Use xUnit and Moq to write integration tests(I did not have time to implement it).
+- **ReactJS && TailwindCSS:** Use ReactJS and TailwindCSS to build the WebApp.
+- **Docker Compose:** Use Docker Compose to run the application and its dependencies in containers.
+- **SQL Server:** Use SQL Server as the database engine.
+- **Entity Framework Core:** Use EF Core as the ORM.
+- **Repository Pattern:** Use the Repository Pattern to abstract the data access layer.
+- **CQRS:** Use CQRS to separate read and write operations, partially implemented
+- **MediatR:** Use MediatR to implement the CQRS pattern, partially implemented
+    
 
 ## Screenshots
 
