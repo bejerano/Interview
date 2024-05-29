@@ -9,11 +9,9 @@
     "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview"
   },
-  "dependencies": {
-    
+  "dependencies": {    
     "datatables.net": "^1.13.6",
-    "eslint-config-airbnb-typescript": "^17.1.0",
-    
+    "eslint-config-airbnb-typescript": "^17.1.0",    
     "moment": "^2.29.4",
     "moment-timezone": "^0.5.43",
     "react": "^18.2.0",

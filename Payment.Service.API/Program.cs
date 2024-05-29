@@ -5,10 +5,13 @@
 using HealthChecks.UI.Client;
 using Microsoft.EntityFrameworkCore;
 using Plooto.Assessment.Payment.Infrastructure;
+using Serilog.Formatting.Json;
+using Serilog.Sinks.File;
 
 var builder = WebApplication.CreateBuilder(args);
+builder.Logging.ClearProviders();
 ConfigureLogging();
-builder.Host.UseSerilog();
+builder.Host.UseSerilog(Log.Logger);
 
 builder.Services.AddControllers()
                 .AddOData(opt => opt.Filter().Select().Expand());
@@ -123,32 +126,50 @@ app.Run();
 
 void ConfigureLogging()
 {
-    var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT") ?? "Development";
+ var environment = Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT");
     var configuration = new ConfigurationBuilder()
         .AddJsonFile("appsettings.json", optional: false, reloadOnChange: true)
         .AddJsonFile(
             $"appsettings.{Environment.GetEnvironmentVariable("ASPNETCORE_ENVIRONMENT")}.json",
             optional: true)
         .Build();
-
+ 
+    
     Log.Logger = new LoggerConfiguration()
         .Enrich.FromLogContext()
-        .Enrich.WithExceptionDetails()
+        .Enrich.WithEnvironmentName()
         .WriteTo.Debug()
         .WriteTo.Console()
         .WriteTo.Elasticsearch(ConfigureElasticSink(configuration, environment))
-        .Enrich.WithProperty("Environment", environment)
+        .WriteTo.Http(requestUri: configuration["ElasticSearch:Uri"], queueLimitBytes: null)
+        .Enrich.WithProperty("Environment", environment!)
         .ReadFrom.Configuration(configuration)
         .CreateLogger();
 }
 
 ElasticsearchSinkOptions ConfigureElasticSink(IConfigurationRoot configuration, string environment)
 {
-    var defaultIndex = $"{Assembly.GetExecutingAssembly().GetName().Name }";
-    return new ElasticsearchSinkOptions(new Uri(configuration["ElasticConfiguration:Uri"] ?? "http://localhost:9200"))
+    return new ElasticsearchSinkOptions(new Uri(configuration["ElasticSearch:Uri"]))
     {
-        AutoRegisterTemplate = true,
-        
-        IndexFormat = $"{defaultIndex.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}"
-    };
+         IndexFormat = "log-plooto-dev",
+         AutoRegisterTemplate = true,
+         ModifyConnectionSettings = (c) => c.BasicAuthentication("elastic", "changeme"),
+         NumberOfShards = 2,
+         NumberOfReplicas = 1,
+         EmitEventFailure = EmitEventFailureHandling.WriteToSelfLog,
+         MinimumLogEventLevel = Serilog.Events.LogEventLevel.Information
+        // //ModifyConnectionSettings = x => x.BasicAuthentication("elastic", "changeme"),
+        // // AutoRegisterTemplate = true,     
+        // // AutoRegisterTemplateVersion = AutoRegisterTemplateVersion.ESv7,        
+        // IndexFormat = $"{Assembly.GetExecutingAssembly().GetName().Name?.ToLower().Replace(".", "-")}-{environment?.ToLower().Replace(".", "-")}-{DateTime.UtcNow:yyyy-MM}",      
+        // // BatchAction = ElasticOpType.Create,
+        // // TypeName = null,
+        //  DeadLetterIndexName = "test-deadletter-{0:yyyy.MM.dd}",
+        //  //FailureCallback = e => Console.WriteLine("Unable to submit event " + e.MessageTemplate),
+        //  //EmitEventFailure = EmitEventFailureHandling.WriteToSelfLog |
+        //  //                            EmitEventFailureHandling.WriteToFailureSink |
+        //  //                            EmitEventFailureHandling.RaiseCallback,
+        //  //FailureSink = new FileSink("./failures.txt", new JsonFormatter(), null)
+        //  DetectElasticsearchVersion = true,
+     };
 }

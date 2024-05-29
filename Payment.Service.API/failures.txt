@@ -1,0 +1,3 @@
+{"Timestamp":"2023-10-05T01:32:40.4137296+00:00","Level":"Information","MessageTemplate":"Url: http://localhost:9200/","Properties":{"EnvironmentName":"Development","Environment":"Development"}}
+{"Timestamp":"2023-10-05T01:36:23.3177949+00:00","Level":"Information","MessageTemplate":"Url: http://localhost:9200/","Properties":{"EnvironmentName":"Development","Environment":"Development"}}
+{"Timestamp":"2023-10-05T01:37:08.8077658+00:00","Level":"Information","MessageTemplate":"Url: http://localhost:9200/","Properties":{"EnvironmentName":"Development","Environment":"Development"}}

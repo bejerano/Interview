@@ -10,7 +10,7 @@ services:
       SA_PASSWORD: P@ssw0rd
       ACCEPT_EULA: Y
     networks:
-      - payment-network
+      - interview
     # volumes:
     #   - sql-server-data:/var/opt/mssql
 
@@ -23,7 +23,7 @@ services:
       - ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx
       # Adjust connection string
       - ConnectionStrings__PaymentDB= Server=sql-server,1433;Database=PaymentDb;User Id=sa;Password=P@ssw0rd;Encrypt=false;TrustServerCertificate=true;Connection Timeout=30;
-      - ElasticConfiguration__Uri=http://elasticsearch:9200
+      - ElasticConfiguration__Uri=http://localhost:9200
     volumes:
       #- ~/.aspnet/https:/https:ro
       - ./conf.d/https:/https:ro
@@ -34,7 +34,7 @@ services:
       - sql-server  
 
     networks:
-      - payment-network
+      - interview
 
   # Web App Service (Assuming you have a Dockerfile for your web app)
   web-app:    
@@ -44,10 +44,10 @@ services:
     ports:
       - "4001:80" # Map host machine's port 80 to the container's port 80
     networks:
-      - payment-network    
+      - interview  
 
 networks:
-  payment-network:
+  interview:
     driver: bridge
 
 volumes:

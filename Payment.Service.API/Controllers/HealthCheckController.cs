@@ -17,10 +17,11 @@ public class HealthCheckController : ControllerBase
         [HttpGet]
         public async Task<IActionResult> Get()
         {
+            _logger.LogInformation("---- Get all healthcheck request");
             var report = await _service.CheckHealthAsync();
             string json = System.Text.Json.JsonSerializer.Serialize(report);
-
-            if (report.Status == HealthStatus.Healthy)
+            _logger.LogInformation("---- Get all healthcheck completed");
+            if (report.Status == HealthStatus.Healthy) 
                 return Ok(json);
             return NotFound("Service unavailable");
         }
