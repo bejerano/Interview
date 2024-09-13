@@ -1,4 +1,4 @@
-# Plooto - Interview .NET Core REST API && ReactJS
+# Interview .NET Core REST API && ReactJS
 
 Brief description of your project.
 
@@ -43,7 +43,7 @@ Brief description of your project.
 *Caption for Swagger Page.*
 
 ![](docs/hc.png)
-*Caption for HalthCheck Page.*
+*Caption for HealthCheck Page.*
 
 ## How to Execute the Project
 
@@ -61,7 +61,7 @@ Make sure you have the following tools installed:
 1. Clone the repository:
 
     ```bash
-    git clone https://github.com/plootoinc/BE-take-home-task-JoseBejerano.git
+    git clone https://github.com/bejerano/Interview.git
     ```
 
 2. Navigate to the project directory (skip if just want to run the app):
